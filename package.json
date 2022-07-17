@@ -1,0 +1,19 @@
+{
+  "name": "valid-cast",
+  "author": "Marian Dittmer",
+  "version": "1.0.0",
+  "description": "A library for casting types safely by validation.",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/marianditt/valid-cast.git"
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "tsc -p ."
+  },
+  "devDependencies": {
+    "typescript": "^4.7.4"
+  }
+}
