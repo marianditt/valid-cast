@@ -1,7 +1,7 @@
-import {validate} from "./validator";
+import { validate } from "./validator"
 
 describe("validate", () => {
-  it('should return true', () => {
+  it("should return true", () => {
     expect(validate()).toBe(true)
-  });
+  })
 })
