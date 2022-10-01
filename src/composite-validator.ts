@@ -52,5 +52,5 @@ function fieldCallback<F extends AbstractFinding>(key: string, finding: F, callb
 }
 
 function createField<T, K extends keyof T>(key: K, value: T[K]): Field<T, K> {
-  return { [key]: value } as Field<T, K>
+  return { [key]: value } as unknown as Field<T, K>
 }

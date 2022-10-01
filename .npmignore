@@ -1,0 +1,15 @@
+# Sources
+src
+
+# Configs
+.prettierrc.json
+jest.config.js
+package-lock.json
+tsconfig.json
+
+# Ignore files
+.gitignore
+.prettierignore
+
+# Project files
+.idea
