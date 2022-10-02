@@ -110,4 +110,53 @@ describe("CompositeValidator", () => {
       expectFindings(mockCallback, ["name", "isBroken"], ["fName", "fIsBroken"])
     })
   })
+
+  describe("given exact validator", () => {
+    it("should return Thing if result fields are equal to input fields", () => {
+      const mockCallback = jest.fn()
+      const validator = CompositeValidator.of<Thing>()
+        .add("name", createValidResultValidator(thing.name))
+        .add("age", createValidResultValidator(thing.age))
+        .add("isBroken", createValidResultValidator(thing.isBroken)).exactValidator
+      expect(validator(thing, mockCallback)).toStrictEqual(thing)
+    })
+
+    it("should propagate findings if result has more fields than input", () => {
+      const mockCallback = jest.fn()
+      const validator = CompositeValidator.of<Thing>()
+        .add("name", createValidResultValidator(thing.name))
+        .add("age", createValidResultValidator(thing.age))
+        .add("isBroken", createValidResultValidator(thing.isBroken)).exactValidator
+      expect(validator({}, mockCallback)).toStrictEqual(thing)
+      expect(mockCallback).toHaveBeenCalledTimes(1)
+      expect(mockCallback.mock.calls[0].length).toBe(1)
+      expect(mockCallback.mock.calls[0][0]).toStrictEqual({
+        key: "StrictCompositeValidationFinding",
+        path: [],
+        details: {
+          expectedKeys: ["name", "age", "isBroken"],
+          actualKeys: [],
+        },
+      })
+    })
+
+    it("should propagate findings if result has less fields than input", () => {
+      const mockCallback = jest.fn()
+      const validator = CompositeValidator.of<Thing>()
+        .add("name", createValidResultValidator(thing.name))
+        .add("age", createValidResultValidator(thing.age))
+        .add("isBroken", createValidResultValidator(thing.isBroken)).exactValidator
+      expect(validator({ ...thing, extraField: undefined }, mockCallback)).toStrictEqual(thing)
+      expect(mockCallback).toHaveBeenCalledTimes(1)
+      expect(mockCallback.mock.calls[0].length).toBe(1)
+      expect(mockCallback.mock.calls[0][0]).toStrictEqual({
+        key: "StrictCompositeValidationFinding",
+        path: [],
+        details: {
+          expectedKeys: ["name", "age", "isBroken"],
+          actualKeys: ["name", "age", "isBroken", "extraField"],
+        },
+      })
+    })
+  })
 })
