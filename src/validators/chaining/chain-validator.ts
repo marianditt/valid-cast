@@ -1,4 +1,4 @@
-import { AbstractFinding, FindingCallback, Validator } from "./validator"
+import { AbstractFinding, FindingCallback, Validator } from "../../lib/validator"
 
 export class ChainValidator<V0, R0, F0 extends AbstractFinding> {
   static of<V, R, F extends AbstractFinding>(validator: Validator<V, R, F>): ChainValidator<V, R, F> {

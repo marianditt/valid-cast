@@ -1,5 +1,5 @@
+import { ValidationError } from "../../lib/validator"
 import { isValidJson, StringErrorEnum } from "./string-validator"
-import { ValidationError } from "./validator"
 
 interface ValidCase {
   readonly value: string

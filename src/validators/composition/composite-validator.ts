@@ -1,5 +1,5 @@
-import { JsonObject } from "./type-validators"
-import { AbstractFinding, FindingCallback, ValidationError, Validator } from "./validator"
+import { AbstractFinding, FindingCallback, ValidationError, Validator } from "../../lib/validator"
+import { JsonObject } from "../typing/type-validators"
 
 export type Field<T, K extends keyof T> = K extends keyof T ? { [P in K]-?: T[P] } : never
 

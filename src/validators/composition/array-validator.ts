@@ -1,4 +1,4 @@
-import { AbstractFinding, FindingCallback, ValidationError, Validator } from "./validator"
+import { AbstractFinding, FindingCallback, ValidationError, Validator } from "../../lib/validator"
 
 export function isValidArrayOf<V, R, F extends AbstractFinding>(
   itemValidator: Validator<V, R, F>

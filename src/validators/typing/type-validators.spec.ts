@@ -1,3 +1,4 @@
+import { FindingCallback, ValidationError } from "../../lib/validator"
 import {
   ExpectedTypeEnum,
   hasTypeArray,
@@ -7,7 +8,6 @@ import {
   hasTypeString,
   TypeValidationFinding,
 } from "./type-validators"
-import { FindingCallback, ValidationError } from "./validator"
 
 interface TestCase {
   readonly expectedTypeKey: ExpectedTypeEnum

@@ -1,4 +1,4 @@
-import { FindingCallback, ValidationFinding, Validator } from "./validator"
+import { FindingCallback, ValidationFinding, Validator } from "../../lib/validator"
 
 export type ComparatorKey = "===" | "!==" | "<" | "<=" | ">" | ">="
 

@@ -1,11 +1,11 @@
-import { ChainValidator } from "./chain-validator"
+import { ValidationError } from "../../lib/validator"
 import {
   createCriticalResultValidator,
   createMockFinding,
   createResultWithFindingsValidator,
   createValidResultValidator,
-} from "./test-utils"
-import { ValidationError } from "./validator"
+} from "../testing/test-utils"
+import { ChainValidator } from "./chain-validator"
 
 describe("ChainValidator", () => {
   function expectFindings(mockCallback: jest.Mock, ids: string[]): void {

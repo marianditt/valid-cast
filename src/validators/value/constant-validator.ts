@@ -1,4 +1,4 @@
-import { FindingCallback, ValidationFinding } from "./validator"
+import { FindingCallback, ValidationFinding } from "../../types/validator-types"
 
 export enum ConstantKey {
   UNDEFINED = "UNDEFINED",

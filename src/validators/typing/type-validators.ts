@@ -1,4 +1,4 @@
-import { FindingCallback, ValidationError, ValidationFinding } from "./validator"
+import { FindingCallback, ValidationError, ValidationFinding } from "../../lib/validator"
 
 export enum ExpectedTypeEnum {
   BOOLEAN = "BOOLEAN",

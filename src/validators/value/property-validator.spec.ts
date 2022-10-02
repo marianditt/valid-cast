@@ -1,6 +1,6 @@
+import { Validator } from "../../lib/validator"
 import { ComparisonValidationFinding, isGreaterThan } from "./comparison-validators"
 import { hasValidProperty, PropertyValidationFinding } from "./property-validator"
-import { Validator } from "./validator"
 
 describe("PropertyValidator", () => {
   describe("given list not empty condition", () => {

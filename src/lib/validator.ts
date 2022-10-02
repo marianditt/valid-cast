@@ -1,7 +1,5 @@
 export type Validator<V, R, F extends AbstractFinding> = (value: V, callback: FindingCallback<F>) => R
 
-export class ValidationError extends Error {}
-
 export type FindingCallback<F extends AbstractFinding> = (finding: F) => void
 
 export interface ValidationFinding<K extends string, D> {
@@ -11,3 +9,5 @@ export interface ValidationFinding<K extends string, D> {
 }
 
 export type AbstractFinding = ValidationFinding<string, unknown>
+
+export class ValidationError extends Error {}

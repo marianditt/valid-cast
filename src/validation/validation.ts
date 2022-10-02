@@ -1,4 +1,6 @@
-import { AbstractFinding, ValidationError, Validator } from "./validator"
+import { ValidationError } from "../validators"
+import { AbstractFinding, Validator } from "../types/validator-types"
+import { ValidationResult } from "./validation-types"
 
 export class Validation<R, F extends AbstractFinding> {
   static validate<V, R, F extends AbstractFinding>(value: V, validator: Validator<V, R, F>): Validation<R, F> {
@@ -29,15 +31,3 @@ export class Validation<R, F extends AbstractFinding> {
     return this.result.findings ?? []
   }
 }
-
-interface ValidResult<R> {
-  value: R
-  findings: null
-}
-
-interface ResultWithFindings<F> {
-  value: null
-  findings: F[]
-}
-
-type ValidationResult<R, F> = ValidResult<R> | ResultWithFindings<F>

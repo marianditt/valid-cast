@@ -1,11 +1,11 @@
-import { isValidArrayOf } from "./array-validator"
+import { ValidationError } from "../../lib/validator"
 import {
   createCriticalResultValidator,
   createMockFinding,
   createResultWithFindingsValidator,
   createValidResultValidator,
-} from "./test-utils"
-import { ValidationError } from "./validator"
+} from "../testing/test-utils"
+import { isValidArrayOf } from "./array-validator"
 
 describe("ArrayValidator", () => {
   function expectFindings(mockCallback: jest.Mock, ids: string[]): void {

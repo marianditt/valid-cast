@@ -1,4 +1,4 @@
-import { FindingCallback, ValidationError, ValidationFinding, Validator } from "./validator"
+import { FindingCallback, ValidationError, ValidationFinding, Validator } from "../../lib/validator"
 
 export interface MockFindingDetails {
   readonly id: string

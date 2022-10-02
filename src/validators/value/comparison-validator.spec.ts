@@ -1,3 +1,4 @@
+import { Validator } from "../../lib/validator"
 import {
   ComparatorKey,
   ComparisonValidationFinding,
@@ -8,7 +9,6 @@ import {
   isLessThan,
   isNotEqualTo,
 } from "./comparison-validators"
-import { Validator } from "./validator"
 
 interface Input {
   readonly key: ComparatorKey

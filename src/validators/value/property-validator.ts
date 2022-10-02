@@ -1,4 +1,4 @@
-import { AbstractFinding, FindingCallback, ValidationFinding, Validator } from "./validator"
+import { AbstractFinding, FindingCallback, ValidationFinding, Validator } from "../../lib/validator"
 
 export interface PropertyValidationDetails<P, PF> {
   readonly propertyName: string

@@ -1,5 +1,5 @@
 import { validate as validateUuid } from "uuid"
-import { FindingCallback, ValidationError, ValidationFinding } from "./validator"
+import { FindingCallback, ValidationError, ValidationFinding } from "../../lib/validator"
 
 export enum StringErrorEnum {
   INVALID_JSON = "INVALID_JSON",
