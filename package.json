@@ -1,16 +1,20 @@
 {
-  "name": "valid-cast",
-  "version": "2.0.2",
+  "name": "validcastexperimental",
+  "version": "1.0.0",
   "description": "A library for casting types safely by validation.",
   "author": "Marian Dittmer",
   "repository": "marianditt/valid-cast",
-  "main": "index.js",
-  "types": "index.d.js",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "/dist"
+  ],
   "scripts": {
     "clean": "rm -rf dist",
-    "build": "npm run clean && tsc",
+    "prebuild": "npm run clean",
+    "build": "tsc",
     "test": "jest",
-    "prepublish": "npm run build"
+    "prepack": "npm run build"
   },
   "devDependencies": {
     "@types/jest": "^28.1.6",
