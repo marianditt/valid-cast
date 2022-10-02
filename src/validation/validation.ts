@@ -1,5 +1,4 @@
-import { ValidationError } from "../validators"
-import { AbstractFinding, Validator } from "../types/validator-types"
+import { AbstractFinding, ValidationError, Validator } from "../lib/validator"
 import { ValidationResult } from "./validation-types"
 
 export class Validation<R, F extends AbstractFinding> {
