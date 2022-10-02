@@ -1,3 +1,3 @@
 export * from "./validation"
-export * as lib from "./lib/validator"
-export * as validators from "./validators"
+export * from "./lib/validator"
+export * as Validators from "./validators"
