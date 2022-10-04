@@ -13,8 +13,9 @@
     "clean": "rm -rf dist",
     "prebuild": "npm run clean",
     "build": "tsc",
+    "pretest": "npm run build",
     "test": "jest",
-    "prepack": "npm run build"
+    "prepublish": "npm run test"
   },
   "devDependencies": {
     "@types/jest": "^28.1.6",
