@@ -1,4 +1,5 @@
-export * from "./chaining/chain-validator"
+export * from "./combination/chain-validator"
+export * from "./combination/switch-validator"
 export * from "./composition/array-validator"
 export * from "./composition/composite-validator"
 export * from "./typing/string-validator"
