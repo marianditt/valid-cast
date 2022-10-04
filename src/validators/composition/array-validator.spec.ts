@@ -1,6 +1,6 @@
 import { ValidationError } from "../../lib/validator"
 import {
-  createCriticalResultValidator,
+  createValidationErrorValidator,
   createMockFinding,
   createResultWithFindingsValidator,
   createValidResultValidator,
@@ -19,7 +19,7 @@ describe("ArrayValidator", () => {
   describe("given only valid results", () => {
     it("should return result for empty array", () => {
       const mockCallback = jest.fn()
-      const validator = isValidArrayOf(createCriticalResultValidator<string, string>("f1"))
+      const validator = isValidArrayOf(createValidationErrorValidator<string, string>("f1"))
       expect(validator([], mockCallback)).toStrictEqual([])
       expectFindings(mockCallback, [])
     })
@@ -44,7 +44,7 @@ describe("ArrayValidator", () => {
   describe("given critical results", () => {
     it("should throw and propagate all findings with index", () => {
       const mockCallback = jest.fn()
-      const validator = isValidArrayOf(createCriticalResultValidator<string, string>("f"))
+      const validator = isValidArrayOf(createValidationErrorValidator<string, string>("f"))
       expect(() => validator(["input", "input"], mockCallback)).toThrow(ValidationError)
       expectFindings(mockCallback, ["f", "f"])
     })

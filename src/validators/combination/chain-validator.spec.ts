@@ -1,21 +1,13 @@
 import { ValidationError } from "../../lib/validator"
 import {
-  createCriticalResultValidator,
-  createMockFinding,
+  createValidationErrorValidator,
   createResultWithFindingsValidator,
   createValidResultValidator,
+  expectFindings,
 } from "../testing/test-utils"
 import { ChainValidator } from "./chain-validator"
 
 describe("ChainValidator", () => {
-  function expectFindings(mockCallback: jest.Mock, ids: string[]): void {
-    expect(mockCallback).toHaveBeenCalledTimes(ids.length)
-    for (let index = 0; index < ids.length; ++index) {
-      expect(mockCallback.mock.calls[index].length).toBe(1)
-      expect(mockCallback.mock.calls[index][0]).toStrictEqual(createMockFinding(ids[index]))
-    }
-  }
-
   describe("given only valid results", () => {
     it("should return result of single validator", () => {
       const mockCallback = jest.fn()
@@ -78,14 +70,14 @@ describe("ChainValidator", () => {
   describe("given critical results", () => {
     it("should return critical finding of single validator", () => {
       const mockCallback = jest.fn()
-      const validator = createCriticalResultValidator<string, number>("f1")
+      const validator = createValidationErrorValidator<string, number>("f1")
       expect(() => ChainValidator.of(validator).validator("input", mockCallback)).toThrow(ValidationError)
       expectFindings(mockCallback, ["f1"])
     })
 
     it("should not list findings after first critical finding", () => {
       const mockCallback = jest.fn()
-      const first = createCriticalResultValidator<string, number>("f1")
+      const first = createValidationErrorValidator<string, number>("f1")
       const second = createResultWithFindingsValidator<number, number>(42, "f2")
       expect(() => ChainValidator.of(first).and(second).validator("input", mockCallback)).toThrow(ValidationError)
       expectFindings(mockCallback, ["f1"])
@@ -94,7 +86,7 @@ describe("ChainValidator", () => {
     it("should list all findings before first critical finding", () => {
       const mockCallback = jest.fn()
       const first = createResultWithFindingsValidator<string, number>(42, "f1")
-      const second = createCriticalResultValidator<number, number>("f2")
+      const second = createValidationErrorValidator<number, number>("f2")
       expect(() => ChainValidator.of(first).and(second).validator("input", mockCallback)).toThrow(ValidationError)
       expectFindings(mockCallback, ["f1", "f2"])
     })
@@ -105,8 +97,8 @@ describe("ChainValidator", () => {
       const v2 = createResultWithFindingsValidator<number, number>(2, "f2")
       const v3 = createResultWithFindingsValidator<number, number>(3, "f3")
       const v4 = createValidResultValidator<number, boolean>(true)
-      const v5 = createCriticalResultValidator<boolean, string>("f5")
-      const v6 = createCriticalResultValidator<string, number>("f6")
+      const v5 = createValidationErrorValidator<boolean, string>("f5")
+      const v6 = createValidationErrorValidator<string, number>("f6")
       const v7 = createValidResultValidator<number, number>(42)
       const validator = ChainValidator.of(v1).and(v2).and(v3).and(v4).and(v5).and(v6).and(v7).validator
       expect(() => validator("input", mockCallback)).toThrow(ValidationError)

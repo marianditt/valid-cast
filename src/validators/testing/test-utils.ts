@@ -21,9 +21,17 @@ export function createResultWithFindingsValidator<V, R>(result: R, id: string): 
   }
 }
 
-export function createCriticalResultValidator<V, R>(id: string): Validator<V, R, MockFinding> {
+export function createValidationErrorValidator<V, R>(id: string): Validator<V, R, MockFinding> {
   return (value: V, callback: FindingCallback<MockFinding>) => {
     callback(createMockFinding(id))
     throw new ValidationError()
+  }
+}
+
+export function expectFindings(mockCallback: jest.Mock, ids: string[]): void {
+  expect(mockCallback).toHaveBeenCalledTimes(ids.length)
+  for (let index = 0; index < ids.length; ++index) {
+    expect(mockCallback.mock.calls[index].length).toBe(1)
+    expect(mockCallback.mock.calls[index][0]).toStrictEqual(createMockFinding(ids[index]))
   }
 }

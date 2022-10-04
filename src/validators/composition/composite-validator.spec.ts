@@ -1,6 +1,6 @@
 import { ValidationError } from "../../lib/validator"
 import {
-  createCriticalResultValidator,
+  createValidationErrorValidator,
   createMockFinding,
   createResultWithFindingsValidator,
   createValidResultValidator,
@@ -83,7 +83,7 @@ describe("CompositeValidator", () => {
     it("should throw and propagate early findings with keys", () => {
       const mockCallback = jest.fn()
       const validator = CompositeValidator.of<Thing>()
-        .add("name", createCriticalResultValidator("fName"))
+        .add("name", createValidationErrorValidator("fName"))
         .add("age", createValidResultValidator(thing.age))
         .add("isBroken", createValidResultValidator(thing.isBroken)).validator
       expect(() => validator({}, mockCallback)).toThrow(ValidationError)
@@ -95,7 +95,7 @@ describe("CompositeValidator", () => {
       const validator = CompositeValidator.of<Thing>()
         .add("name", createValidResultValidator(thing.name))
         .add("age", createValidResultValidator(thing.age))
-        .add("isBroken", createCriticalResultValidator("fIsBroken")).validator
+        .add("isBroken", createValidationErrorValidator("fIsBroken")).validator
       expect(() => validator({}, mockCallback)).toThrow(ValidationError)
       expectFindings(mockCallback, ["isBroken"], ["fIsBroken"])
     })
@@ -103,9 +103,9 @@ describe("CompositeValidator", () => {
     it("should throw and propagate all field findings with key", () => {
       const mockCallback = jest.fn()
       const validator = CompositeValidator.of<Thing>()
-        .add("name", createCriticalResultValidator("fName"))
+        .add("name", createValidationErrorValidator("fName"))
         .add("age", createValidResultValidator(thing.age))
-        .add("isBroken", createCriticalResultValidator("fIsBroken")).validator
+        .add("isBroken", createValidationErrorValidator("fIsBroken")).validator
       expect(() => validator({}, mockCallback)).toThrow(ValidationError)
       expectFindings(mockCallback, ["name", "isBroken"], ["fName", "fIsBroken"])
     })
