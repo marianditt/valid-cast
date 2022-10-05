@@ -39,13 +39,13 @@ const testCases: TestCase[] = [
     expectedTypeKey: ExpectedTypeEnum.OBJECT,
     validator: hasTypeObject,
     validInputs: [{}, { a: 0, b: "", c: true }, { 0: 42, 7: false }, { x: {} }],
-    invalidInputs: [false, 1, "", [], () => 7],
+    invalidInputs: [false, 1, "", [], () => 7, null, undefined],
   },
   {
     expectedTypeKey: ExpectedTypeEnum.ARRAY,
     validator: hasTypeArray,
     validInputs: [[[]], [[false]], [[0, true, ""]], [[[], {}]]], // each() internally maps [1, 2, 3] to [[1], [2], [3]]
-    invalidInputs: [true, 0, "string", {}, { 0: 13, 1: "true", 2: false }],
+    invalidInputs: [true, 0, "string", {}, { 0: 13, 1: "true", 2: false }, null, undefined],
   },
 ]
 

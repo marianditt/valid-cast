@@ -15,6 +15,17 @@ export interface StringValidationDetails {
 export interface StringValidationFinding
   extends ValidationFinding<"StringValidationFinding", StringValidationDetails> {}
 
+/**
+ * Validate if a value of type string is valid json.
+ *
+ * The validator returns the parsed json value if the input is valid.
+ * The returned type is unknown, because Valid Cast tries hard not to make any assumptions.
+ *
+ * @param value the value to validate.
+ * @param callback the callback used to report findings of type {@link StringValidationFinding}.
+ * @returns the input value parsed as json object and type `unknown`.
+ * @throws ValidationError if the input value cannot be parsed as json.
+ */
 export function isValidJson(value: string, callback: FindingCallback<StringValidationFinding>): unknown {
   try {
     return JSON.parse(value)
@@ -24,6 +35,16 @@ export function isValidJson(value: string, callback: FindingCallback<StringValid
   }
 }
 
+/**
+ * Validate if a value of type string is a valid uuid.
+ *
+ * The validator does not throw a {@link ValidationError}.
+ * Instead, a validation finding is reported and the invalid value is passed to successor validators.
+ *
+ * @param value the value to validate.
+ * @param callback the callback used to report findings of type {@link StringValidationFinding}.
+ * @returns the input value.
+ */
 export function isValidUuid(value: string, callback: FindingCallback<StringValidationFinding>): string {
   if (!validateUuid(value)) {
     callback(createStringValidationFinding(StringErrorEnum.INVALID_UUID))
@@ -31,6 +52,17 @@ export function isValidUuid(value: string, callback: FindingCallback<StringValid
   return value
 }
 
+/**
+ * Validate if a value of type string is a valid integer.
+ *
+ * A value is considered invalid if {@link parseInt} returns {@link NaN}.
+ * The validator does not throw a {@link ValidationError}.
+ * Instead, a validation finding is reported and `NaN` is passed to successor validators.
+ *
+ * @param value the value to validate.
+ * @param callback the callback used to report findings of type {@link StringValidationFinding}.
+ * @returns the input value parsed as integer or `NaN`.
+ */
 export function isValidIntegerString(value: string, callback: FindingCallback<StringValidationFinding>): number {
   const result = parseInt(value, 10)
   if (isNaN(result)) {
@@ -39,6 +71,17 @@ export function isValidIntegerString(value: string, callback: FindingCallback<St
   return result
 }
 
+/**
+ * Validate if a value of type string is a valid float.
+ *
+ * A value is considered invalid if {@link parseFloat} returns {@link NaN}.
+ * The validator does not throw a {@link ValidationError}.
+ * Instead, a validation finding is reported and `NaN` is passed to successor validators.
+ *
+ * @param value the value to validate.
+ * @param callback the callback used to report findings of type {@link StringValidationFinding}.
+ * @returns the input value parsed as integer or `NaN`.
+ */
 export function isValidFloatString(value: string, callback: FindingCallback<StringValidationFinding>): number {
   const result = parseFloat(value)
   if (isNaN(result)) {
