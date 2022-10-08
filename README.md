@@ -10,8 +10,8 @@ The entry point for validations is the static method `Validation.validate(value,
 where `value` is validated and `validator` is a primitive or composed validator.
 The validate method creates a validation object, which provides two getters:
 
-* `getValue()` - returns the validated value of the correct type,
-* `getFindings()` - returns all reported findings by validators.
+- `getValue()` - returns the validated value of the correct type,
+- `getFindings()` - returns all reported findings by validators.
 
 `getValue()` will throw a `ValidationError` if `getFindings()` does not return an empty array.
 `getFindings()` always returns an empty array if `getValue()` returns a value.
@@ -34,7 +34,7 @@ const input: unknown = "..." // or a value of another type.
 try {
   const result: string = Validation.validate(input, hasTypeString).getValue()
 } catch (error) {
-  // Handle ValidationError
+  // Handle ValidationError.
 }
 ```
 
@@ -44,7 +44,7 @@ Alternatively, one can always check for validation findings instead of catching 
 const input: unknown = "..." // or a value of another type.
 const validation: Validation = Validation.validate(input, hasTypeString)
 if (validation.getFindings().length > 0) {
-  // Handle ValidationError
+  // Handle validation findings.
 } else {
   const result: string = validation.getValue()
 }
@@ -57,11 +57,11 @@ _Valid Cast_ does not make assumptions about the object type,
 but we now know that the string was valid json and can work with the parsed result.
 
 ```typescript
-const input: string = "..."
+const input: string = "..." // or valid json.
 try {
   const result: unknown = Validation.validate(input, isValidJson).getValue()
 } catch (error) {
-  // Handle ValidationError
+  // Handle ValidationError.
 }
 ```
 
@@ -75,7 +75,7 @@ const input: number = 42
 try {
   const result: unknown = Validation.validate(input, isGreaterThan(0)).getValue()
 } catch (error) {
-  // Handle ValidationError
+  // Handle ValidationError.
 }
 ```
 
@@ -84,7 +84,8 @@ try {
 Composite validators are used to build powerful validators from simpler building blocks.
 Composite validators take validators and return a composed validator.
 Composed validators can again be used in other composite validators.
-Other than building more powerful validation rules, composite validators can also build arbitrary complex types.
+Other than building more powerful validation rules,
+composite validators can also cast to arbitrary complex result types.
 
 #### Example - ChainValidator
 
@@ -95,10 +96,16 @@ const isValidPercentage = ChainValidator.of(hasTypeNumber).and(isGreaterOrEqual(
 const input: unknown = 42
 try {
   const result: number = Validation.validate(input, isValidPercentage).getValue()
-  // Result is a number in (0, 100]
+  // Result is a number in (0, 100].
 } catch (error) {
-  // Handle ValidationError
+  // Handle ValidationError.
 }
+```
+
+Some convenience validators exists. The percentage validator above e.g., is equivalent to:
+
+```typescript
+const isValidPercentage = isValidNumberBetween({ minValue: 0, maxValue: 100 })
 ```
 
 #### Example - CompositeValidator
@@ -123,18 +130,16 @@ interface Address {
 
 const isValidAddress = CompositeValidator.of<Address>()
   .add("street", hasTypeString)
-  .add("city", hasTypeString)
-  .exactValidator // ensures that the input does not provide extra fields.
+  .add("city", hasTypeString).exactValidator // ensures that the input does not provide extra fields.
 
 const isValidPerson = CompositeValidator.of<Person>()
   .add("name", hasTypeString)
-  .add("address", isValidAddress)
-  .validator // extra fields are allowed but are not contained in the result.
+  .add("address", isValidAddress).validator // extra fields are allowed but are not contained in the result.
 
-const input: unknown = {} // or a valid person
+const input = {} // or a valid person.
 try {
   const result: Person = Validation.validate(input, isValidPerson).getValue()
 } catch (error) {
-  // Handle ValidationError
+  // Handle ValidationError.
 }
 ```

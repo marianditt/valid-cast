@@ -1,10 +1,11 @@
 import { ValidationError } from "../../lib/validator"
 import {
-  createValidationErrorValidator,
   createMockFinding,
   createResultWithFindingsValidator,
+  createValidationErrorValidator,
   createValidResultValidator,
 } from "../testing/test-utils"
+import { hasTypeBoolean, hasTypeNumber, hasTypeString } from "../typing/type-validators"
 import { CompositeValidator } from "./composite-validator"
 
 interface Thing {
@@ -121,25 +122,6 @@ describe("CompositeValidator", () => {
       expect(validator(thing, mockCallback)).toStrictEqual(thing)
     })
 
-    it("should propagate findings if result has more fields than input", () => {
-      const mockCallback = jest.fn()
-      const validator = CompositeValidator.of<Thing>()
-        .add("name", createValidResultValidator(thing.name))
-        .add("age", createValidResultValidator(thing.age))
-        .add("isBroken", createValidResultValidator(thing.isBroken)).exactValidator
-      expect(validator({}, mockCallback)).toStrictEqual(thing)
-      expect(mockCallback).toHaveBeenCalledTimes(1)
-      expect(mockCallback.mock.calls[0].length).toBe(1)
-      expect(mockCallback.mock.calls[0][0]).toStrictEqual({
-        key: "StrictCompositeValidationFinding",
-        path: [],
-        details: {
-          expectedKeys: ["name", "age", "isBroken"],
-          actualKeys: [],
-        },
-      })
-    })
-
     it("should propagate findings if result has less fields than input", () => {
       const mockCallback = jest.fn()
       const validator = CompositeValidator.of<Thing>()
@@ -157,6 +139,24 @@ describe("CompositeValidator", () => {
           actualKeys: ["name", "age", "isBroken", "extraField"],
         },
       })
+    })
+  })
+
+  describe("given real thing", () => {
+    it("should return Thing for valid input", () => {
+      const mockCallback = jest.fn()
+      const validator = CompositeValidator.of<Thing>()
+        .add("name", hasTypeString)
+        .add("age", hasTypeNumber)
+        .add("isBroken", hasTypeBoolean).exactValidator
+      const input: {} = {
+        name: "cup",
+        age: 1,
+        isBroken: true,
+      }
+      const result: Thing = validator(input, mockCallback)
+      expect(result).toStrictEqual(input)
+      expectFindings(mockCallback, [], [])
     })
   })
 })

@@ -65,8 +65,6 @@ export function hasTypeString(value: unknown, callback: FindingCallback<TypeVali
   }
 }
 
-export type JsonObject = { [key: string]: unknown }
-
 /**
  * Validate if a value of unknown type is of type object with string keys.
  *
@@ -80,10 +78,10 @@ export type JsonObject = { [key: string]: unknown }
  *
  * @param value the value to validate.
  * @param callback the callback used to report findings of type {@link TypeValidationFinding}.
- * @returns the input value as {@link JsonObject}.
+ * @returns the input value as an object type that extends the empty object.
  * @throws ValidationError if the input value is not of type object, is `null`, or of type array.
  */
-export function hasTypeObject(value: unknown, callback: FindingCallback<TypeValidationFinding>): JsonObject {
+export function hasTypeObject(value: unknown, callback: FindingCallback<TypeValidationFinding>): {} {
   if (typeof value === "object" && value !== null && !Array.isArray(value)) {
     return { ...value }
   } else {
@@ -91,8 +89,6 @@ export function hasTypeObject(value: unknown, callback: FindingCallback<TypeVali
     throw new ValidationError()
   }
 }
-
-export type JsonArray = { [key: number]: unknown }
 
 /**
  * Validate if a value of unknown type is an array.
@@ -108,10 +104,10 @@ export type JsonArray = { [key: number]: unknown }
  *
  * @param value the value to validate.
  * @param callback the callback used to report findings of type {@link TypeValidationFinding}.
- * @returns the input value as {@link JsonArray}.
+ * @returns the input value as array of unknown item types.
  * @throws ValidationError if the input value is not an array.
  */
-export function hasTypeArray(value: unknown, callback: FindingCallback<TypeValidationFinding>): JsonArray {
+export function hasTypeArray(value: unknown, callback: FindingCallback<TypeValidationFinding>): unknown[] {
   if (Array.isArray(value)) {
     return value
   } else {
