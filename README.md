@@ -105,7 +105,7 @@ try {
 Some convenience validators exists. The percentage validator above e.g., is equivalent to:
 
 ```typescript
-const isValidPercentage = isValidNumberBetween({minValue: 0, maxValue: 100})
+const isValidPercentage = isValidNumberBetween({ minValue: 0, maxValue: 100 })
 ```
 
 #### Example - CompositeValidator
