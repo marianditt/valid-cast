@@ -19,7 +19,7 @@ The validate method creates a validation object, which provides two getters:
 `getValue()` will throw a `ValidationError` if `getFindings()` does not return an empty array.
 `getFindings()` always returns an empty array if `getValue()` returns a value.
 
-## Building validators
+## Validator composition
 
 There are two classes of validators: primitive and composed.
 Primitive validators basically take a value and return a result or throw a `ValidationError`.
