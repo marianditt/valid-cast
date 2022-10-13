@@ -1,6 +1,7 @@
 # Valid Cast
 
 ![Tests](https://github.com/marianditt/valid-cast/actions/workflows/main-tests.yml/badge.svg)
+[![codecov](https://codecov.io/gh/marianditt/valid-cast/branch/main/graph/badge.svg?token=CBX68X7ABK)](https://codecov.io/gh/marianditt/valid-cast)
 
 _Valid Cast_ combines input validation with type casting. Developers are sometimes forced to make assumptions about the
 input data type. Assumptions can be dangerous, because one can easily overlook corner cases. Input validation can help
@@ -75,7 +76,7 @@ Strictly speaking, they are validator providers - functions that create validato
 ```typescript
 const input: number = 42
 try {
-  const result: unknown = Validation.validate(input, isGreaterThan(0)).getValue()
+  const result: number = Validation.validate(input, isGreaterThan(0)).getValue()
 } catch (error) {
   // Handle ValidationError.
 }
@@ -98,7 +99,7 @@ const isValidPercentage = ChainValidator.of(hasTypeNumber).and(isGreaterOrEqual(
 const input: unknown = 42
 try {
   const result: number = Validation.validate(input, isValidPercentage).getValue()
-  // Result is a number in (0, 100].
+  // Result is a number in [0, 100].
 } catch (error) {
   // Handle ValidationError.
 }
@@ -107,7 +108,7 @@ try {
 Some convenience validators exists. The percentage validator above e.g., is equivalent to:
 
 ```typescript
-const isValidPercentage = isValidNumberBetween({minValue: 0, maxValue: 100})
+const isValidPercentage = isValidNumberBetween({ minValue: 0, maxValue: 100 })
 ```
 
 #### Example - CompositeValidator
