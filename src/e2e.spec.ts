@@ -2,10 +2,14 @@ import { Validation } from "./validation"
 import {
   ChainValidator,
   CompositeValidator,
+  ExpectedTypeEnum,
   hasTypeArray,
   hasTypeObject,
   hasTypeString,
+  isGreaterOrEqual,
+  isLessOrEqual,
   isValidArrayOf,
+  isValidIntegerString,
   isValidJson,
   isValidNumberBetween,
   isValidOptionalValue,
@@ -112,5 +116,37 @@ describe("End to end", () => {
     const input: string = JSON.stringify(validCompany)
     const result: Company = Validation.validate(input, isValidCompanyJson).getValue()
     expect(result).toStrictEqual(validCompany)
+  })
+
+  it("should report finding for an invalid employee name type", () => {
+    const input: unknown = {
+      ...validCompany,
+      employees: [validPersonAlice, { ...validPersonBob, name: 7 }, validPersonCarl],
+    }
+    const findings = Validation.validate(input, isValidCompany).getFindings()
+    expect(findings.length).toBe(1)
+    expect(findings[0]).toStrictEqual({
+      key: "TypeValidationFinding",
+      path: ["employees", "1", "name"],
+      details: {
+        expectedType: ExpectedTypeEnum.STRING,
+      },
+    })
+
+    const invalidValue: unknown = findings[0].path.reduce((value: any, prop: string) => value[prop], input)
+    expect(invalidValue).toBe(7)
+  })
+
+  it("should report all findings of an invalid percentage string", () => {
+    const isValidPercentage = ChainValidator.of(hasTypeString)
+      .and(isValidIntegerString)
+      .and(isGreaterOrEqual(0))
+      .and(isLessOrEqual(100)).validator
+    const input: unknown = "forty-two"
+    const findings = Validation.validate(input, isValidPercentage).getFindings()
+    expect(findings.length).toBe(3)
+    expect(findings[0].key).toBe("StringValidationFinding")
+    expect(findings[1].key).toBe("ComparisonValidationFinding")
+    expect(findings[2].key).toBe("ComparisonValidationFinding")
   })
 })

@@ -1,7 +1,19 @@
 import { AbstractFinding, ValidationError, Validator } from "../lib/validator"
 import { ValidationResult } from "./validation-types"
 
+/**
+ * The validation class provides an entry point for validation and access to the validation result.
+ *
+ * @see validate
+ */
 export class Validation<R, F extends AbstractFinding> {
+  /**
+   * The entry point for validations.
+   *
+   * @param value the value to validate.
+   * @param validator a primitive or composite validator used for validation.
+   * @returns the validation instance that gives access to the validation result or findings.
+   */
   static validate<V, R, F extends AbstractFinding>(value: V, validator: Validator<V, R, F>): Validation<R, F> {
     const findings: F[] = []
     try {
@@ -18,6 +30,16 @@ export class Validation<R, F extends AbstractFinding> {
 
   private constructor(private readonly result: ValidationResult<R, F>) {}
 
+  /**
+   * Tries to get the validation result.
+   *
+   * A value is only returned if the {@link Validator} did not report any {@link ValidationFinding}s.
+   * A {@link ValidationError} is thrown even if the {@link Validator} returned a result
+   * but also reported a {@link ValidationFinding}.
+   *
+   * @returns the valid result of correct type.
+   * @throws {@link ValidationError} if at least one {@link ValidationFinding} was reported.
+   */
   getValue(): R {
     if (this.result.findings === null) {
       return this.result.value
@@ -26,6 +48,9 @@ export class Validation<R, F extends AbstractFinding> {
     }
   }
 
+  /**
+   * @returns all reported {@link ValidationFinding}s or an empty array only if the result is valid.
+   */
   getFindings(): F[] {
     return this.result.findings ?? []
   }
