@@ -108,7 +108,7 @@ try {
 Some convenience validators exists. The percentage validator above e.g., is equivalent to:
 
 ```typescript
-const isValidPercentage = isValidNumberBetween({ minValue: 0, maxValue: 100 })
+const isValidPercentage = isValidNumberBetween({minValue: 0, maxValue: 100})
 ```
 
 #### Example - CompositeValidator
@@ -122,13 +122,13 @@ and that the field validators returns the correct type.
 
 ```typescript
 interface Person {
-  readonly name: string
-  readonly address: Adress
+  name: string
+  address: Address
 }
 
 interface Address {
-  readonly street: string
-  readonly city: string
+  street: string
+  city: string
 }
 
 const isValidAddress = CompositeValidator.of<Address>()
